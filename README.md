@@ -132,7 +132,7 @@ FROM (
     GROUP BY c.region, c.customer_id, c.name
 )
 ORDER BY region, region_rank;
-![table after adding values in it]()
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/11.jpg?raw=true)
 
 ##2. AGGREGATE FUNCTIONS - Running Totals & Moving Averages //
 SELECT TO_CHAR(sale_date, 'YYYY-MM') as sales_month,

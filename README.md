@@ -160,7 +160,7 @@ SELECT sales_month, monthly_sales,
               LAG(monthly_sales, 1) OVER (ORDER BY sales_month)) * 100, 2) as growth_pct
 FROM monthly_sales
 ORDER BY sales_month;
-![table after adding values in it]()
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/13.jpg?raw=true)
 
 ## 4.DISTRIBUTION FUNCTIONS - Customer Segmentation
 

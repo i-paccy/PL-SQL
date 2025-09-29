@@ -135,6 +135,8 @@ ORDER BY region, region_rank;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/11.jpg?raw=true)
 Interpretation: Grace Imani and Jean Bosco are tied for #1 globally, but Alice Uwase is #2 in Kigali region.
 
+### another scenario
+
 -- Rank products by sales performance within each category
 SELECT 
     category,
@@ -156,7 +158,7 @@ FROM (
     GROUP BY p.category, p.product_id, p.name
 )
 ORDER BY category, category_rank;
-![table after adding values in it]()
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/21.jpg?raw=true)
 
 
 
@@ -172,7 +174,7 @@ FROM (
 ORDER BY sales_month;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/12.jpg?raw=true)
 Interpretation: Sales started strong in January, dipped in February, then recovered in March. The 3-month average shows overall positive trend.
-
+### another scenario
 -- Running total of customer spending over their purchase history
 SELECT 
     customer_id,
@@ -191,7 +193,7 @@ FROM (
     JOIN transactions t ON c.customer_id = t.customer_id
 )
 ORDER BY customer_id, sale_date;
-![table after adding values in it]()
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/22.jpg?raw=true)
 
 
 
@@ -212,6 +214,8 @@ ORDER BY sales_month;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/13.jpg?raw=true)
 Interpretation: February had a significant sales drop (-71.36%), but March showed strong recovery with 205.71% growth from February.
 
+### another scenario
+
 -- Analyze time between customer purchases
 SELECT 
     customer_id,
@@ -231,7 +235,7 @@ FROM (
     JOIN transactions t ON c.customer_id = t.customer_id
 )
 ORDER BY customer_id, sale_date;
-![table after adding values in it]()
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/23.jpg?raw=true)
 
 
 
@@ -254,6 +258,8 @@ ORDER BY total_spending DESC;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/14.jpg?raw=true)
 Interpretation: Customers are divided into 4 equal groups. Top 2 customers (33%) are Platinum tier, next 2 are Gold, and bottom 2 are Silver. 100% of customers spend more than or equal to David Nshuti.
 
+### another scenario
+
 -- Analyze product price distribution and categorization
 SELECT 
     product_id,
@@ -269,6 +275,53 @@ SELECT
     END as price_category
 FROM products
 ORDER BY price DESC;
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/24.jpg?raw=true)
+
+##### another pictures from my Vs code terminal of oracles
 ![table after adding values in it]()
+![table after adding values in it]()
+![table after adding values in it]()
+![table after adding values in it]()
+
+## References
+
+Oracle PL/SQL Documentation - Window Functions
+https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/Analytic-Functions.html
+
+Oracle Database SQL Language Reference
+https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/index.html
+
+Oracle Base - Analytic Functions (Window Functions)
+https://oracle-base.com/articles/misc/analytic-functions
+
+Oracle Tutorial - Window Functions
+https://www.oracletutorial.com/oracle-analytic-functions/
+
+Stack Overflow - PL/SQL Window Function Examples
+https://stackoverflow.com/questions/tagged/oracle+analytic-functions
+
+Oracle Dev Gym - Analytic Function Workshops
+https://devgym.oracle.com/
+
+W3Schools - SQL Window Functions
+https://www.w3schools.com/sql/sql_window_functions.asp
+
+GeeksforGeeks - Window Functions in SQL
+https://www.geeksforgeeks.org/window-functions-in-sql/
+
+Oracle Database Data Warehousing Guide - Analytic Functions
+https://docs.oracle.com/en/database/oracle/oracle-database/19/dwhsg/sql-analysis-reporting-data-warehouses.html
+
+YouTube Tutorial - Oracle Window Functions by RebellionRider
+https://www.youtube.com/watch?v=Wc-5idNiiK8
+
+Database Journal - Analytic Functions Tutorials
+https://www.databasejournal.com/features/oracle/article.php/2247321
+
+Oracle PL/SQL Programming Book by Steven Feuerstein
+https://www.oreilly.com/library/view/oracle-plsql-programming/9781497668005/
+
+
+
 
 

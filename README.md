@@ -111,5 +111,5 @@ ORDER BY t.sale_date;
 ## Graphs of commands 
 
 ![Table before adding Values inside](https://github.com/i-paccy/PL-SQL/blob/main/1.jpg?raw=true)
-![Table before adding Values inside]()
+![Table before adding Values inside](https://github.com/i-paccy/PL-SQL/blob/main/3.jpg?raw=true)
 ![Table before adding Values inside](https://github.com/i-paccy/PL-SQL/blob/main/2.jpg?raw=true)

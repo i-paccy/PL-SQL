@@ -67,3 +67,25 @@ UNION ALL
 SELECT 'Products: ' || COUNT(*) FROM products
 UNION ALL
 SELECT 'Transactions: ' || COUNT(*) FROM transactions;
+
+-- Display all customers
+SELECT * FROM customers 
+ORDER BY customer_id;
+
+-- Display all products
+SELECT * FROM products 
+ORDER BY product_id;
+
+-- Display all transactions with customer and product names
+SELECT 
+    t.transaction_id,
+    c.name as customer_name,
+    p.name as product_name,
+    t.sale_date,
+    t.amount,
+    t.quantity
+FROM transactions t
+JOIN customers c ON t.customer_id = c.customer_id
+JOIN products p ON t.product_id = p.product_id
+ORDER BY t.sale_date;
+

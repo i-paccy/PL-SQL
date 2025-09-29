@@ -22,3 +22,30 @@ transactions: Sales records	(transaction_id (Primary Key), customer_id (Foreign 
 
 ## ER Diagram
 ![ER Diagram scheme](https://github.com/i-paccy/PL-SQL/blob/main/ER%20DIAGRAM.jpg?raw=true)
+
+## SQL Codes
+
+CREATE TABLE customers (
+    customer_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100),
+    email VARCHAR2(100),
+    region VARCHAR2(50),
+    registration_date DATE
+);
+
+CREATE TABLE products (
+    product_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100),
+    category VARCHAR2(50),
+    price NUMBER(10,2)
+);
+
+CREATE TABLE transactions (
+    transaction_id NUMBER PRIMARY KEY,
+    customer_id NUMBER REFERENCES customers(customer_id),
+    product_id NUMBER REFERENCES products(product_id),
+    sale_date DATE,
+    amount NUMBER(10,2),
+    quantity NUMBER
+);
+

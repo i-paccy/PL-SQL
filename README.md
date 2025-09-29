@@ -115,7 +115,7 @@ ORDER BY t.sale_date;
 ![Table before adding Values inside](https://github.com/i-paccy/PL-SQL/blob/main/2.jpg?raw=true)
 
 Here I'm using Images from cmd prompt(or what i can call terminal)
-![table after adding values in it]()
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/customer%20table.jpg?raw=true)
 ![table after adding values in it]()
 ![table after adding values in it]()
 

@@ -178,6 +178,6 @@ FROM (
     GROUP BY c.customer_id, c.name, c.region
 )
 ORDER BY total_spending DESC;
-![table after adding values in it]()
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/14.jpg?raw=true)
 
 

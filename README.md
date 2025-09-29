@@ -116,6 +116,6 @@ ORDER BY t.sale_date;
 
 Here I'm using Images from cmd prompt(or what i can call terminal)
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/customer%20table.jpg?raw=true)
-![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/transaction%20table.jpg?raw=true)
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/product%20table.jpg?raw=true)
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/transaction%20table.jpg?raw=true)
 

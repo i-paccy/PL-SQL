@@ -119,3 +119,65 @@ Here I'm using Images from cmd prompt(or what i can call terminal)
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/product%20table.jpg?raw=true)
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/transaction%20table.jpg?raw=true)
 
+#WINDOW FUNCTIONS OUTPUTS:
+
+## 1. RANKING FUNCTIONS - Top Customers by Region
+SELECT region, customer_id, name, total_spending,
+       ROW_NUMBER() OVER (PARTITION BY region ORDER BY total_spending DESC) as row_num,
+       RANK() OVER (PARTITION BY region ORDER BY total_spending DESC) as region_rank,
+       DENSE_RANK() OVER (ORDER BY total_spending DESC) as global_rank
+FROM (
+    SELECT c.region, c.customer_id, c.name, SUM(t.amount) as total_spending
+    FROM customers c JOIN transactions t ON c.customer_id = t.customer_id
+    GROUP BY c.region, c.customer_id, c.name
+)
+ORDER BY region, region_rank;
+![table after adding values in it]()
+
+##2. AGGREGATE FUNCTIONS - Running Totals & Moving Averages //
+SELECT TO_CHAR(sale_date, 'YYYY-MM') as sales_month,
+       monthly_sales,
+       SUM(monthly_sales) OVER (ORDER BY TO_CHAR(sale_date, 'YYYY-MM')) as running_total,
+       AVG(monthly_sales) OVER (ORDER BY TO_CHAR(sale_date, 'YYYY-MM') ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) as moving_avg
+FROM (
+    SELECT TRUNC(sale_date, 'MONTH') as sale_date, SUM(amount) as monthly_sales
+    FROM transactions GROUP BY TRUNC(sale_date, 'MONTH')
+)
+ORDER BY sales_month;
+![table after adding values in it]()
+
+## 3.NAVIGATION FUNCTIONS - Month-over-Month Growth
+
+
+WITH monthly_sales AS (
+    SELECT TO_CHAR(sale_date, 'YYYY-MM') as sales_month, SUM(amount) as monthly_sales
+    FROM transactions GROUP BY TO_CHAR(sale_date, 'YYYY-MM')
+)
+SELECT sales_month, monthly_sales,
+       LAG(monthly_sales, 1) OVER (ORDER BY sales_month) as prev_month,
+       monthly_sales - LAG(monthly_sales, 1) OVER (ORDER BY sales_month) as difference,
+       ROUND(((monthly_sales - LAG(monthly_sales, 1) OVER (ORDER BY sales_month)) / 
+              LAG(monthly_sales, 1) OVER (ORDER BY sales_month)) * 100, 2) as growth_pct
+FROM monthly_sales
+ORDER BY sales_month;
+![table after adding values in it]()
+
+## 4.DISTRIBUTION FUNCTIONS - Customer Segmentation
+
+SELECT customer_id, name, region, total_spending,
+       NTILE(4) OVER (ORDER BY total_spending DESC) as quartile,
+       ROUND(CUME_DIST() OVER (ORDER BY total_spending DESC) * 100, 2) as cume_dist_pct,
+       CASE 
+           WHEN NTILE(4) OVER (ORDER BY total_spending DESC) = 1 THEN 'Platinum'
+           WHEN NTILE(4) OVER (ORDER BY total_spending DESC) = 2 THEN 'Gold' 
+           ELSE 'Silver'
+       END as customer_tier
+FROM (
+    SELECT c.customer_id, c.name, c.region, SUM(t.amount) as total_spending
+    FROM customers c JOIN transactions t ON c.customer_id = t.customer_id
+    GROUP BY c.customer_id, c.name, c.region
+)
+ORDER BY total_spending DESC;
+![table after adding values in it]()
+
+

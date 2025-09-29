@@ -144,7 +144,7 @@ FROM (
     FROM transactions GROUP BY TRUNC(sale_date, 'MONTH')
 )
 ORDER BY sales_month;
-![table after adding values in it]()
+![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/12.jpg?raw=true)
 
 ## 3.NAVIGATION FUNCTIONS - Month-over-Month Growth
 

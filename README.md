@@ -19,3 +19,6 @@ Customer spending quartiles → NTILE(4)
 customers: Customer master data (customer_id (Primary Key), name, email, region)
 products: Product catalog	(product_id (Primary Key), name, category, price)
 transactions: Sales records	(transaction_id (Primary Key), customer_id (Foreign Key), product_id (Foreign Key), sale_date, amount, quantity)
+
+## ER Diagram
+ER Diagram scheme https://github.com/i-paccy/PL-SQL/blob/main/ER%20DIAGRAM.jpg

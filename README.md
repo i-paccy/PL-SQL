@@ -119,9 +119,9 @@ Here I'm using Images from cmd prompt(or what i can call terminal)
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/product%20table.jpg?raw=true)
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/transaction%20table.jpg?raw=true)
 
-#WINDOW FUNCTIONS OUTPUTS:
+## WINDOW FUNCTIONS OUTPUTS:
 
-## 1. RANKING FUNCTIONS - Top Customers by Region
+# 1. RANKING FUNCTIONS - Top Customers by Region
 SELECT region, customer_id, name, total_spending,
        ROW_NUMBER() OVER (PARTITION BY region ORDER BY total_spending DESC) as row_num,
        RANK() OVER (PARTITION BY region ORDER BY total_spending DESC) as region_rank,
@@ -133,6 +133,7 @@ FROM (
 )
 ORDER BY region, region_rank;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/11.jpg?raw=true)
+Interpretation: Grace Imani and Jean Bosco are tied for #1 globally, but Alice Uwase is #2 in Kigali region.
 
 ##2. AGGREGATE FUNCTIONS - Running Totals & Moving Averages //
 SELECT TO_CHAR(sale_date, 'YYYY-MM') as sales_month,
@@ -145,6 +146,9 @@ FROM (
 )
 ORDER BY sales_month;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/12.jpg?raw=true)
+Interpretation: Sales started strong in January, dipped in February, then recovered in March. The 3-month average shows overall positive trend.
+
+
 
 ## 3.NAVIGATION FUNCTIONS - Month-over-Month Growth
 
@@ -161,6 +165,7 @@ SELECT sales_month, monthly_sales,
 FROM monthly_sales
 ORDER BY sales_month;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/13.jpg?raw=true)
+Interpretation: February had a significant sales drop (-71.36%), but March showed strong recovery with 205.71% growth from February.
 
 ## 4.DISTRIBUTION FUNCTIONS - Customer Segmentation
 
@@ -179,5 +184,6 @@ FROM (
 )
 ORDER BY total_spending DESC;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/14.jpg?raw=true)
+Interpretation: Customers are divided into 4 equal groups. Top 2 customers (33%) are Platinum tier, next 2 are Gold, and bottom 2 are Silver. 100% of customers spend more than or equal to David Nshuti.
 
 

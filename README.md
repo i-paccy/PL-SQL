@@ -119,9 +119,9 @@ Here I'm using Images from cmd prompt(or what i can call terminal)
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/product%20table.jpg?raw=true)
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/transaction%20table.jpg?raw=true)
 
-## WINDOW FUNCTIONS OUTPUTS:
+# WINDOW FUNCTIONS OUTPUTS:
 
-# 1. RANKING FUNCTIONS - Top Customers by Region
+## 1. RANKING FUNCTIONS - Top Customers by Region
 SELECT region, customer_id, name, total_spending,
        ROW_NUMBER() OVER (PARTITION BY region ORDER BY total_spending DESC) as row_num,
        RANK() OVER (PARTITION BY region ORDER BY total_spending DESC) as region_rank,
@@ -135,6 +135,31 @@ ORDER BY region, region_rank;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/11.jpg?raw=true)
 Interpretation: Grace Imani and Jean Bosco are tied for #1 globally, but Alice Uwase is #2 in Kigali region.
 
+-- Rank products by sales performance within each category
+SELECT 
+    category,
+    product_id,
+    name,
+    total_sales,
+    ROW_NUMBER() OVER (PARTITION BY category ORDER BY total_sales DESC) as row_num,
+    RANK() OVER (PARTITION BY category ORDER BY total_sales DESC) as category_rank,
+    DENSE_RANK() OVER (ORDER BY total_sales DESC) as global_rank
+FROM (
+    SELECT 
+        p.category,
+        p.product_id,
+        p.name,
+        SUM(t.amount) as total_sales,
+        COUNT(t.transaction_id) as times_sold
+    FROM products p
+    JOIN transactions t ON p.product_id = t.product_id
+    GROUP BY p.category, p.product_id, p.name
+)
+ORDER BY category, category_rank;
+![table after adding values in it]()
+
+
+
 ##2. AGGREGATE FUNCTIONS - Running Totals & Moving Averages //
 SELECT TO_CHAR(sale_date, 'YYYY-MM') as sales_month,
        monthly_sales,
@@ -147,6 +172,26 @@ FROM (
 ORDER BY sales_month;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/12.jpg?raw=true)
 Interpretation: Sales started strong in January, dipped in February, then recovered in March. The 3-month average shows overall positive trend.
+
+-- Running total of customer spending over their purchase history
+SELECT 
+    customer_id,
+    name,
+    sale_date,
+    amount,
+    SUM(amount) OVER (PARTITION BY customer_id ORDER BY sale_date) as customer_running_total,
+    AVG(amount) OVER (PARTITION BY customer_id ORDER BY sale_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as customer_avg_spend
+FROM (
+    SELECT 
+        c.customer_id,
+        c.name,
+        t.sale_date,
+        t.amount
+    FROM customers c
+    JOIN transactions t ON c.customer_id = t.customer_id
+)
+ORDER BY customer_id, sale_date;
+![table after adding values in it]()
 
 
 
@@ -167,6 +212,29 @@ ORDER BY sales_month;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/13.jpg?raw=true)
 Interpretation: February had a significant sales drop (-71.36%), but March showed strong recovery with 205.71% growth from February.
 
+-- Analyze time between customer purchases
+SELECT 
+    customer_id,
+    name,
+    sale_date,
+    amount,
+    LAG(sale_date, 1) OVER (PARTITION BY customer_id ORDER BY sale_date) as prev_purchase_date,
+    sale_date - LAG(sale_date, 1) OVER (PARTITION BY customer_id ORDER BY sale_date) as days_between_purchases,
+    LEAD(sale_date, 1) OVER (PARTITION BY customer_id ORDER BY sale_date) as next_purchase_date
+FROM (
+    SELECT 
+        c.customer_id,
+        c.name,
+        t.sale_date,
+        t.amount
+    FROM customers c
+    JOIN transactions t ON c.customer_id = t.customer_id
+)
+ORDER BY customer_id, sale_date;
+![table after adding values in it]()
+
+
+
 ## 4.DISTRIBUTION FUNCTIONS - Customer Segmentation
 
 SELECT customer_id, name, region, total_spending,
@@ -185,5 +253,22 @@ FROM (
 ORDER BY total_spending DESC;
 ![table after adding values in it](https://github.com/i-paccy/PL-SQL/blob/main/14.jpg?raw=true)
 Interpretation: Customers are divided into 4 equal groups. Top 2 customers (33%) are Platinum tier, next 2 are Gold, and bottom 2 are Silver. 100% of customers spend more than or equal to David Nshuti.
+
+-- Analyze product price distribution and categorization
+SELECT 
+    product_id,
+    name,
+    category,
+    price,
+    NTILE(3) OVER (ORDER BY price DESC) as price_tier,
+    ROUND(CUME_DIST() OVER (ORDER BY price DESC) * 100, 2) as price_percentile,
+    CASE 
+        WHEN NTILE(3) OVER (ORDER BY price DESC) = 1 THEN 'Premium'
+        WHEN NTILE(3) OVER (ORDER BY price DESC) = 2 THEN 'Standard'
+        ELSE 'Budget'
+    END as price_category
+FROM products
+ORDER BY price DESC;
+![table after adding values in it]()
 
 
